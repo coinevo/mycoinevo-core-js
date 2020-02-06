@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -27,7 +27,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict";
-const mymonero = require("../");
+const mycoinevo = require("../");
 const assert = require("assert");
 
 var public_key =
@@ -35,13 +35,13 @@ var public_key =
 var private_key =
 	"52aa4c69b93b780885c9d7f51e6fd5795904962c61a2e07437e130784846f70d";
 
-var nettype = mymonero.nettype_utils.network_type.MAINNET;
+var nettype = mycoinevo.nettype_utils.network_type.MAINNET;
 
 describe("cryptonote_utils tests", function() {
 
 	it("create_address aka address_and_keys_from_seed", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var decoded = monero_utils.address_and_keys_from_seed("9c973aa296b79bbf452781dd3d32ad7f", nettype);
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var decoded = coinevo_utils.address_and_keys_from_seed("9c973aa296b79bbf452781dd3d32ad7f", nettype);
 		assert.equal(
 			decoded.address_string,
 			"43zxvpcj5Xv9SEkNXbMCG7LPQStHMpFCQCmkmR4u5nzjWwq5Xkv5VmGgYEsHXg4ja2FGRD5wMWbBVMijDTqmmVqm93wHGkg",
@@ -49,8 +49,8 @@ describe("cryptonote_utils tests", function() {
 	});
 
 	it("decode mainnet primary address", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var decoded = monero_utils.decode_address(
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var decoded = coinevo_utils.decode_address(
 			"49qwWM9y7j1fvaBK684Y5sMbN8MZ3XwDLcSaqcKwjh5W9kn9qFigPBNBwzdq6TCAm2gKxQWrdZuEZQBMjQodi9cNRHuCbTr",
 			nettype,
 		);
@@ -66,8 +66,8 @@ describe("cryptonote_utils tests", function() {
 	});
 
 	it("decode mainnet integrated address", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var decoded = monero_utils.decode_address(
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var decoded = coinevo_utils.decode_address(
 			"4KYcX9yTizXfvaBK684Y5sMbN8MZ3XwDLcSaqcKwjh5W9kn9qFigPBNBwzdq6TCAm2gKxQWrdZuEZQBMjQodi9cNd3mZpgrjXBKMx9ee7c",
 			nettype,
 		);
@@ -84,8 +84,8 @@ describe("cryptonote_utils tests", function() {
 
 	// not implemented
 	// it("hash_to_scalar", async function() {
-	// 	const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-	// 	var scalar = monero_utils.hash_to_scalar(private_key);
+	// 	const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+	// 	var scalar = coinevo_utils.hash_to_scalar(private_key);
 	// 	assert.equal(
 	// 		scalar,
 	// 		"77c5899835aa6f96b13827f43b094abf315481eaeb4ad2403c65d5843480c404",
@@ -93,8 +93,8 @@ describe("cryptonote_utils tests", function() {
 	// });
 
 	it("generate key derivation", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var derivation = monero_utils.generate_key_derivation(
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var derivation = coinevo_utils.generate_key_derivation(
 			public_key,
 			private_key,
 		);
@@ -105,12 +105,12 @@ describe("cryptonote_utils tests", function() {
 	});
 
 	it("derive public key", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var derivation = monero_utils.generate_key_derivation(
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var derivation = coinevo_utils.generate_key_derivation(
 			public_key,
 			private_key,
 		);
-		var output_key = monero_utils.derive_public_key(
+		var output_key = coinevo_utils.derive_public_key(
 			derivation,
 			1,
 			public_key,
@@ -122,12 +122,12 @@ describe("cryptonote_utils tests", function() {
 	});
 
 	it("derive subaddress public key", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var derivation = monero_utils.generate_key_derivation(
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var derivation = coinevo_utils.generate_key_derivation(
 			public_key,
 			private_key,
 		);
-		var subaddress_public_key = monero_utils.derive_subaddress_public_key(
+		var subaddress_public_key = coinevo_utils.derive_subaddress_public_key(
 			public_key,
 			derivation,
 			1,
@@ -139,7 +139,7 @@ describe("cryptonote_utils tests", function() {
 	});
 
 	it("decodeRct", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
 		const i = 1;
 		const sk = "9b1529acb638f497d05677d7505d354b4ba6bc95484008f6362f93160ef3e503";
 		const rv = 
@@ -171,7 +171,7 @@ describe("cryptonote_utils tests", function() {
 				}
 			]
 		};
-		var ret = monero_utils.decodeRct(rv, sk, i);
+		var ret = coinevo_utils.decodeRct(rv, sk, i);
 		assert.equal(
 			ret.mask,
 			"3f59c741c9ad560bfea92f42449a180bc8362f1b5ddd957e3b5772dbaf7f840e",
@@ -182,8 +182,8 @@ describe("cryptonote_utils tests", function() {
 		);
 	});
 	it("estimate_fee", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var fee = monero_utils.estimate_fee({
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var fee = coinevo_utils.estimate_fee({
 			use_per_byte_fee: true, 
 			use_rct: true, 
 			n_inputs: 2, 
@@ -202,8 +202,8 @@ describe("cryptonote_utils tests", function() {
 		);
 	});
 	it("estimate_tx_weight", async function() {
-		const monero_utils = await require("../monero_utils/MyMoneroCoreBridge")({})
-		var weight = monero_utils.estimate_tx_weight({
+		const coinevo_utils = await require("../coinevo_utils/MyCoinevoCoreBridge")({})
+		var weight = coinevo_utils.estimate_tx_weight({
 			use_rct: true, 
 			n_inputs: 2, 
 			mixin: 10, 

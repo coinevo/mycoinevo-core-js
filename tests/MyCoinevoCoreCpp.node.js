@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2018, MyMonero.com
+// Copyright (c) 2014-2018, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -277,7 +277,7 @@ function tests(Module)
   }
 }
 console.time("Load module")
-require('../monero_utils/MyMoneroCoreBridge')({asmjs: false}).then(function(instance) // this can be switched to manually test asmjs vs wasm - can be exposed to option
+require('../coinevo_utils/MyCoinevoCoreBridge')({asmjs: false}).then(function(instance) // this can be switched to manually test asmjs vs wasm - can be exposed to option
 {	
 	console.timeEnd("Load module")
 	console.log("Loaded instance")

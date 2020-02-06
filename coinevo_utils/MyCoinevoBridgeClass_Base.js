@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -31,9 +31,9 @@
 // Modified to add RingCT support by luigi1111 (2017)
 //
 // v--- These should maybe be injected into a context and supplied to currencyConfig for future platforms
-const MyMoneroBridge_utils = require('./MyMoneroBridge_utils')
+const MyCoinevoBridge_utils = require('./MyCoinevoBridge_utils')
 //
-class MyMoneroBridgeClass_Base
+class MyCoinevoBridgeClass_Base
 {
 	constructor(this_Module)
 	{
@@ -60,4 +60,4 @@ class MyMoneroBridgeClass_Base
 	}
 }
 //
-module.exports = MyMoneroBridgeClass_Base
+module.exports = MyCoinevoBridgeClass_Base

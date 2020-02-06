@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -29,10 +29,10 @@
 "use strict";
 //
 const JSBigInt = require("../cryptonote_utils/biginteger").BigInteger;
-const monero_config = require("./monero_config");
+const coinevo_config = require("./coinevo_config");
 const moment = require("../cryptonote_utils/moment")
-const monero_keyImage_cache_utils = require("./monero_keyImage_cache_utils");
-const monero_amount_format_utils = require("./monero_amount_format_utils");
+const coinevo_keyImage_cache_utils = require("./coinevo_keyImage_cache_utils");
+const coinevo_amount_format_utils = require("./coinevo_amount_format_utils");
 //
 function ownedParsedTxFrom__orNil(
 	raw_tx,
@@ -47,7 +47,7 @@ function ownedParsedTxFrom__orNil(
 	//
 	if ((tx.spent_outputs || []).length > 0) {
 		for (var j = 0; j < tx.spent_outputs.length; ++j) {
-			var key_image = monero_keyImage_cache_utils.Lazy_KeyImage(
+			var key_image = coinevo_keyImage_cache_utils.Lazy_KeyImage(
 				keyImage_cache,
 				tx.spent_outputs[j].tx_pub_key,
 				tx.spent_outputs[j].out_index,
@@ -69,7 +69,7 @@ function ownedParsedTxFrom__orNil(
 		return null // not own tx - discard
 	}
 	tx.amount = new JSBigInt(tx.total_received || 0).subtract(tx.total_sent || 0).toString()
-	tx.approx_float_amount = parseFloat(monero_amount_format_utils.formatMoney(tx.amount));
+	tx.approx_float_amount = parseFloat(coinevo_amount_format_utils.formatMoney(tx.amount));
 	// tx.timestamp = tx.timestamp;
 	//
 	if (typeof tx.payment_id !== "undefined" && tx.payment_id) {
@@ -91,16 +91,16 @@ function IsTransactionConfirmed(tx, blockchain_height)
 	if (tx.height === null || typeof tx.height == 'undefined') {
 		return false // supposing it hasn't made it into a block yet
 	}
-	return blockchain_height - tx.height > monero_config.txMinConfirms;
+	return blockchain_height - tx.height > coinevo_config.txMinConfirms;
 }
 exports.IsTransactionConfirmed = IsTransactionConfirmed;
 //
 function IsTransactionUnlocked(tx, blockchain_height) {
 	const unlock_time = tx.unlock_time || 0;
-	if (!monero_config.maxBlockNumber) {
+	if (!coinevo_config.maxBlockNumber) {
 		throw "Max block number is not set in config!";
 	}
-	if (unlock_time < monero_config.maxBlockNumber) {
+	if (unlock_time < coinevo_config.maxBlockNumber) {
 		// unlock time is block height
 		return blockchain_height >= unlock_time;
 	} else {
@@ -114,14 +114,14 @@ exports.IsTransactionUnlocked = IsTransactionUnlocked;
 function TransactionLockedReason(tx, blockchain_height)
 {
 	const unlock_time = tx.unlock_time || 0;
-	if (unlock_time < monero_config.maxBlockNumber) {
+	if (unlock_time < coinevo_config.maxBlockNumber) {
 		// unlock time is block height
 		var numBlocks = unlock_time - blockchain_height;
 		if (numBlocks <= 0) {
 			return "Transaction is unlocked";
 		}
 		var unlock_prediction = moment().add(
-			numBlocks * monero_config.avgBlockTime,
+			numBlocks * coinevo_config.avgBlockTime,
 			"seconds"
 		);
 		return (

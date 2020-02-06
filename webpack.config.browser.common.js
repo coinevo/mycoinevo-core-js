@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -37,8 +37,8 @@ module.exports =
 	entry: "./index.js",
 	output: {
 		path: path.resolve(__dirname, "build"),
-		filename: "mymonero-core.js",
-        library: "mymonero_core_js",
+		filename: "mycoinevo-core.js",
+        library: "mycoinevo_core_js",
         libraryTarget: "umd"
 	},
 	cache: false,
@@ -81,8 +81,8 @@ module.exports =
 						path.join(__dirname, 'node_modules')
 					],
 					exclude: [
-						'monero_utils/MyMoneroCoreCpp_ASMJS.asm.js',
-						'monero_utils/MyMoneroCoreCpp_ASMJS.wasm'
+						'coinevo_utils/MyCoinevoCoreCpp_ASMJS.asm.js',
+						'coinevo_utils/MyCoinevoCoreCpp_ASMJS.wasm'
 					]
 				},
 				use: [

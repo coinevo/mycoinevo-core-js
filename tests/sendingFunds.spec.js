@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict";
-const mymonero_core_js = require("../");
-const JSBigInt = mymonero_core_js.JSBigInt;
+const mycoinevo_core_js = require("../");
+const JSBigInt = mycoinevo_core_js.JSBigInt;
 const assert = require("assert");
 
 class APIClient
@@ -186,7 +186,7 @@ describe("sendingFunds tests", function()
 			sending_amount = "0"
 		} else {
 			try {
-				sending_amount = (mymonero_core_js.monero_amount_format_utils.parseMoney(entered_amount)).toString();
+				sending_amount = (mycoinevo_core_js.coinevo_amount_format_utils.parseMoney(entered_amount)).toString();
 			} catch (e) {
 				throw new Error(`Couldn't parse amount ${amount}: ${e}`)
 			}
@@ -199,7 +199,7 @@ describe("sendingFunds tests", function()
 		const payment_id = null; 
 		var coreBridge_instance;
 		try {
-			coreBridge_instance = await require('../monero_utils/MyMoneroCoreBridge')({ asmjs: undefined/*allow it to detect*/ });
+			coreBridge_instance = await require('../coinevo_utils/MyCoinevoCoreBridge')({ asmjs: undefined/*allow it to detect*/ });
 		} catch (e) {
 			console.error(e);
 			return;
@@ -215,7 +215,7 @@ describe("sendingFunds tests", function()
 			to_address_string: target_address,
 			priority: simple_priority,
 			unlock_time: 0, // unlock_time 
-			nettype: mymonero_core_js.nettype_utils.network_type.MAINNET,
+			nettype: mycoinevo_core_js.nettype_utils.network_type.MAINNET,
 			//
 			get_unspent_outs_fn: function(req_params, cb)
 			{
@@ -241,7 +241,7 @@ describe("sendingFunds tests", function()
 			//
 			status_update_fn: function(params)
 			{
-				console.log("> Send funds step " + params.code + ": " + mymonero_core_js.monero_sendingFunds_utils.SendFunds_ProcessStep_MessageSuffix[params.code])
+				console.log("> Send funds step " + params.code + ": " + mycoinevo_core_js.coinevo_sendingFunds_utils.SendFunds_ProcessStep_MessageSuffix[params.code])
 			},
 			error_fn: function(params)
 			{

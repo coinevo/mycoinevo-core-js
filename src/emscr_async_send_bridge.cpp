@@ -1,6 +1,6 @@
 //
 //  emscr_async_bridge_index.cpp
-//  Copyright (c) 2014-2019, MyMonero.com
+//  Copyright (c) 2014-2019, Coinevo.tech
 //
 //  All rights reserved.
 //
@@ -41,10 +41,10 @@
 //
 #include "string_tools.h"
 //
-#include "monero_fork_rules.hpp"
-#include "monero_send_routine.hpp"
+#include "coinevo_fork_rules.hpp"
+#include "coinevo_send_routine.hpp"
 #include "serial_bridge_utils.hpp"
-#include "monero_address_utils.hpp"
+#include "coinevo_address_utils.hpp"
 //
 #include "wallet_errors.h"
 using namespace tools;
@@ -52,7 +52,7 @@ using namespace tools;
 //
 using namespace std;
 using namespace boost;
-using namespace monero_send_routine;
+using namespace coinevo_send_routine;
 //
 using namespace serial_bridge_utils;
 using namespace emscr_async_bridge;
@@ -82,7 +82,7 @@ struct Send_Task_AsyncContext
 	vector<SpendableOutput> unspent_outs;
 	uint64_t fee_per_b;
 	uint64_t fee_mask;
-	monero_fork_rules::use_fork_rules_fn_type use_fork_rules;
+	coinevo_fork_rules::use_fork_rules_fn_type use_fork_rules;
 	//
 	// cached
 	secret_key sec_viewKey;
@@ -289,7 +289,7 @@ void emscr_async_bridge::send_funds(const string &args_string)
 		unspent_outs, // this gets pushed to after getting unspent outs
 		0, // fee_per_b - this gets set after getting unspent outs
 		0, // fee_mask - this gets set after getting unspent outs
-		monero_fork_rules::make_use_fork_rules_fn(0), // this will get set again after getting unspent outs - though it's slightly unsafe to set it to 0 like this 
+		coinevo_fork_rules::make_use_fork_rules_fn(0), // this will get set again after getting unspent outs - though it's slightly unsafe to set it to 0 like this 
 		//
 		// cached
 		sec_viewKey,
@@ -386,7 +386,7 @@ void emscr_async_bridge::send_cb_I__got_unspent_outs(const string &args_string)
 	ptrTo_taskAsyncContext->unspent_outs = std::move(*(parsed_res.unspent_outs)); // move structs from stack's vector to heap's vector
 	ptrTo_taskAsyncContext->fee_per_b = *(parsed_res.per_byte_fee); 
 	ptrTo_taskAsyncContext->fee_mask = *(parsed_res.fee_mask);
-	ptrTo_taskAsyncContext->use_fork_rules = monero_fork_rules::make_use_fork_rules_fn(parsed_res.fork_version);
+	ptrTo_taskAsyncContext->use_fork_rules = coinevo_fork_rules::make_use_fork_rules_fn(parsed_res.fork_version);
 	_reenterable_construct_and_send_tx(task_id);
 }
 void emscr_async_bridge::_reenterable_construct_and_send_tx(const string &task_id)
@@ -398,7 +398,7 @@ void emscr_async_bridge::_reenterable_construct_and_send_tx(const string &task_i
 	send_app_handler__status_update(task_id, calculatingFee);
 	//
 	Send_Step1_RetVals step1_retVals;
-	monero_transfer_utils::send_step1__prepare_params_for_get_decoys(
+	coinevo_transfer_utils::send_step1__prepare_params_for_get_decoys(
 		step1_retVals,
 		//
 		ptrTo_taskAsyncContext->payment_id_string,
@@ -484,7 +484,7 @@ void emscr_async_bridge::send_cb_II__got_random_outs(const string &args_string)
 	}
 	THROW_WALLET_EXCEPTION_IF(ptrTo_taskAsyncContext->step1_retVals__using_outs.size() == 0, error::wallet_internal_error, "Expected non-0 using_outs");
 	Send_Step2_RetVals step2_retVals;
-	monero_transfer_utils::send_step2__try_create_transaction(
+	coinevo_transfer_utils::send_step2__try_create_transaction(
 		step2_retVals,
 		//
 		ptrTo_taskAsyncContext->from_address_string,
@@ -602,7 +602,7 @@ void emscr_async_bridge::send_cb_III__submitted_tx(const string &args_string)
 	{
 		optional<string> returning__payment_id = ptrTo_taskAsyncContext->payment_id_string; // separated from submit_raw_tx_fn so that it can be captured w/o capturing all of args
 		if (returning__payment_id == none) {
-			auto decoded = monero::address_utils::decodedAddress(ptrTo_taskAsyncContext->to_address_string, ptrTo_taskAsyncContext->nettype);
+			auto decoded = coinevo::address_utils::decodedAddress(ptrTo_taskAsyncContext->to_address_string, ptrTo_taskAsyncContext->nettype);
 			if (decoded.did_error) { // would be very strange...
 				send_app_handler__error_msg(task_id, std::move(*(decoded.err_string)));
 				return;

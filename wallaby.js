@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -30,19 +30,19 @@ module.exports = function(wallaby) {
 	process.env.NODE_ENV = "development";
 
 	return {
-		name: "mymonero-core-js",
+		name: "mycoinevo-core-js",
 		files: [
 			"cryptonote_utils/**/*.js",
 			"hostAPI/**/*.js",
-			"monero_utils/**/*.js",
+			"coinevo_utils/**/*.js",
 			"index.js",
 			"tests/borromean/test_parameters.js",
 		],
 
 		filesWithNoCoverageCalculated: [
-			"monero_utils/MyMoneroCoreCpp_WASM.js",
-			"monero_utils/MyMoneroCoreCpp_ASMJS.js",
-			"monero_utils/MyMoneroCoreCpp_ASMJS.asm.js"
+			"coinevo_utils/MyCoinevoCoreCpp_WASM.js",
+			"coinevo_utils/MyCoinevoCoreCpp_ASMJS.js",
+			"coinevo_utils/MyCoinevoCoreCpp_ASMJS.asm.js"
 		],
 
 		tests: ["./tests/**/*spec.js"],

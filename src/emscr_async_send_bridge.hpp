@@ -1,6 +1,6 @@
 //
 //  emscr_async_bridge_index.hpp
-//  Copyright (c) 2014-2019, MyMonero.com
+//  Copyright (c) 2014-2019, Coinevo.tech
 //
 //  All rights reserved.
 //
@@ -36,14 +36,14 @@
 #include <string>
 #include <boost/optional.hpp>
 #include "cryptonote_config.h" 
-#include "monero_send_routine.hpp"
+#include "coinevo_send_routine.hpp"
 //
 namespace emscr_async_bridge
 {
 	using namespace std;
 	using namespace boost;
 	using namespace cryptonote;
-	using namespace monero_send_routine;
+	using namespace coinevo_send_routine;
 	//
 	// Bridging Functions - these take and return JSON strings plus unique ids that are used internally for matching up calls from C++ to JS over emscripten, with the cbs that will fulfill the promises and futures being used to coordinate e.g. async routines like send_funds.
 	//

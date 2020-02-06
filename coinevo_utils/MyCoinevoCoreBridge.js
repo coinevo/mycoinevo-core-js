@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -26,16 +26,16 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-const MyMoneroCoreBridgeClass = require('./MyMoneroCoreBridgeClass')
-const MyMoneroBridge_utils = require('./MyMoneroBridge_utils')
+const MyCoinevoCoreBridgeClass = require('./MyCoinevoCoreBridgeClass')
+const MyCoinevoBridge_utils = require('./MyCoinevoBridge_utils')
 //
 module.exports = function(options)
 {
 	options = options || {}
 
-	MyMoneroBridge_utils.update_options_for_fallback_to_asmjs(options)
+	MyCoinevoBridge_utils.update_options_for_fallback_to_asmjs(options)
 
-	const platform_info = MyMoneroBridge_utils.detect_platform();
+	const platform_info = MyCoinevoBridge_utils.detect_platform();
 	const ENVIRONMENT_IS_WEB = platform_info.ENVIRONMENT_IS_WEB;
 	const ENVIRONMENT_IS_WORKER = platform_info.ENVIRONMENT_IS_WORKER;
 	const ENVIRONMENT_IS_NODE = platform_info.ENVIRONMENT_IS_NODE;
@@ -56,22 +56,22 @@ module.exports = function(options)
 		if (ENVIRONMENT_IS_NODE) {
 			const path = require('path')
 			const lastPathComponent = path.basename(this_scriptDirectory)
-			if (lastPathComponent == "monero_utils") { // typical node or electron-main process
+			if (lastPathComponent == "coinevo_utils") { // typical node or electron-main process
 				fullPath = path.format({
 					dir: this_scriptDirectory,
 					base: filename
 				})
 			} else {
-				console.warn(`MyMoneroCoreBridge/locateFile() on node.js didn't find "monero_utils" (or possibly MyMoneroCoreBridge.js) itself in the expected location in the following path. The function may need to be expanded but it might in normal situations be likely to be another bug. ${pathTo_cryptonoteUtilsDir}`)
+				console.warn(`MyCoinevoCoreBridge/locateFile() on node.js didn't find "coinevo_utils" (or possibly MyCoinevoCoreBridge.js) itself in the expected location in the following path. The function may need to be expanded but it might in normal situations be likely to be another bug. ${pathTo_cryptonoteUtilsDir}`)
 			}
 		} else if (ENVIRONMENT_IS_WEB) {
 			var pathTo_cryptonoteUtilsDir;
-			if (typeof __dirname !== undefined && __dirname !== "/") { // looks like node running in browser.. (but not going to assume it's electron-renderer since that should be taken care of by monero_utils.js itself)
+			if (typeof __dirname !== undefined && __dirname !== "/") { // looks like node running in browser.. (but not going to assume it's electron-renderer since that should be taken care of by coinevo_utils.js itself)
 				// but just in case it is... here's an attempt to support it
 				// have to check != "/" b/c webpack (I think) replaces __dirname
 				pathTo_cryptonoteUtilsDir = "file://" + __dirname + "/" // prepending "file://" because it's going to try to stream it
 			} else { // actual web browser
-				pathTo_cryptonoteUtilsDir = this_scriptDirectory + `/mymonero_core_js/monero_utils/` // this works for the MyMonero browser build, and is quite general, at least
+				pathTo_cryptonoteUtilsDir = this_scriptDirectory + `/mycoinevo_core_js/coinevo_utils/` // this works for the MyCoinevo browser build, and is quite general, at least
 			}
 			fullPath = pathTo_cryptonoteUtilsDir + filename
 		}
@@ -89,12 +89,12 @@ module.exports = function(options)
 			Module_template["locateFile"] = locateFile
 			//
 			// NOTE: This requires src/module-post.js to be included as post-js in CMakeLists.txt under a wasm build
-			require(`./MyMoneroCoreCpp_WASM`)(Module_template).ready.then(function(thisModule) 
+			require(`./MyCoinevoCoreCpp_WASM`)(Module_template).ready.then(function(thisModule) 
 			{
-				const instance = new MyMoneroCoreBridgeClass(thisModule);
+				const instance = new MyCoinevoCoreBridgeClass(thisModule);
 				resolve(instance);
 			}).catch(function(e) {
-				console.error("Error loading WASM_MyMoneroCoreCpp:", e);
+				console.error("Error loading WASM_MyCoinevoCoreCpp:", e);
 				reject(e);
 			});
 		} else { // this is synchronous so we can resolve immediately
@@ -137,7 +137,7 @@ module.exports = function(options)
 			} else {
 				throw "Unsupported environment - please implement file reading for asmjs fallback case"
 			}
-			const filepath = locateFile("MyMoneroCoreCpp_ASMJS.asm.js", scriptDirectory)
+			const filepath = locateFile("MyCoinevoCoreCpp_ASMJS.asm.js", scriptDirectory)
 			const content = read_fn(filepath)
 			// TODO: verify content - for now, relying on same-origin and tls/ssl
 			var Module = {}
@@ -151,7 +151,7 @@ module.exports = function(options)
 			{ // "delaying even 1ms is enough to allow compilation memory to be reclaimed"
 				Module_template['asm'] = Module['asm']
 				Module = null
-				resolve(new MyMoneroCoreBridgeClass(require("./MyMoneroCoreCpp_ASMJS")(Module_template)))
+				resolve(new MyCoinevoCoreBridgeClass(require("./MyCoinevoCoreCpp_ASMJS")(Module_template)))
 			}, 1) 
 		}
 	});

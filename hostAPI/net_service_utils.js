@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2019, MyMonero.com
+// Copyright (c) 2014-2019, Coinevo.tech
 //
 // All rights reserved.
 //
@@ -140,7 +140,7 @@ function _new_HTTPRequestHandlerFunctionCallingFn(fn) {
 				json = JSON.parse(body);
 			} catch (e) {
 				console.error(
-					"❌  HostedMoneroAPIClient Error: Unable to parse json with exception:",
+					"❌  HostedCoinevoAPIClient Error: Unable to parse json with exception:",
 					e,
 					"\nbody:",
 					body,

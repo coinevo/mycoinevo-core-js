@@ -1,7 +1,7 @@
-monero_utils/MyMoneroCoreCpp_WASM.js
-monero_utils/MyMoneroCoreCpp_WASM.wasm
-monero_utils/MyMoneroCoreCpp_ASMJS.js
-monero_utils/MyMoneroCoreCpp_ASMJS.asm.js
+coinevo_utils/MyCoinevoCoreCpp_WASM.js
+coinevo_utils/MyCoinevoCoreCpp_WASM.wasm
+coinevo_utils/MyCoinevoCoreCpp_ASMJS.js
+coinevo_utils/MyCoinevoCoreCpp_ASMJS.asm.js
 package.json
 yarn.lock
 
